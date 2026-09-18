@@ -20,6 +20,8 @@ Installs and configures a complete developer stack in one command. Supports macO
 
 ## Installation
 
+### Interactive Mode (Prompt and explain each phase)
+
 ```bash
 curl -sSL desktop.setupvibe.dev | bash
 ```
@@ -30,13 +32,25 @@ Or locally:
 bash desktop.sh
 ```
 
-The script shows an interactive roadmap and asks for confirmation before starting. It also prompts to configure Git identity if not already set.
+### Automatic Mode (Install all 14 phases without per-step confirmation)
+
+```bash
+curl -sSL desktop.setupvibe.dev | bash -s -- --yes
+```
+
+Or locally:
+
+```bash
+bash desktop.sh --yes
+```
+
+The script presents an interactive roadmap with clear explanations for each phase (Laravel, Docker, AI CLIs, etc.) and allows you to install or skip (`↷ Skipped`) any individual component.
 
 ---
 
-## What Gets Installed
+## What Gets Installed (14 Phases)
 
-**14 steps, fully automated.**
+Each phase has a clear description and can be installed or skipped individually during interactive installation:
 
 ### Step 1 — Base System & Build Tools
 

@@ -40,6 +40,32 @@ CTOP_SHA256_ARM64="d8d91e0fea53a8c78fa81192f078272e5a92f0ea6c4f0e38ec7c944d76e6f
 echo -e "${CYAN}SetupVibe Desktop v${VERSION}${NC}"
 echo ""
 
+# --- OPTIONS / CLI ARGS ---
+AUTO_INSTALL=false
+INTERACTIVE_SELECTION=true
+
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes|-a|--all)
+            AUTO_INSTALL=true
+            INTERACTIVE_SELECTION=false
+            ;;
+        -i|--interactive|-c|--custom)
+            AUTO_INSTALL=false
+            INTERACTIVE_SELECTION=true
+            ;;
+        -h|--help)
+            echo "Uso: bash desktop.sh [OPÇÕES]"
+            echo ""
+            echo "Opções:"
+            echo "  -y, --yes, -a, --all        Instala todas as fases automaticamente sem confirmação individual"
+            echo "  -i, --interactive           Modo interativo com pergunta e explicação para cada fase (padrão)"
+            echo "  -h, --help                  Exibe esta mensagem de ajuda"
+            exit 0
+            ;;
+    esac
+done
+
 # --- ENVIRONMENT ---
 export COMPOSER_ALLOW_SUPERUSER=1
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
@@ -263,6 +289,23 @@ STEPS=(
     "Finalization & Cleanup"
 )
 
+STEP_DESCRIPTIONS=(
+    "Instala ferramentas essenciais do sistema e compilação (curl, git, build-essential, ca-certificates, unzip e utilitários base)."
+    "Instala ou atualiza o gerenciador de pacotes Homebrew (Linuxbrew no Linux) para instalar ferramentas modernas de linha de comando."
+    "Instala PHP ${PHP_VERSION}, extensões essenciais, Composer e ferramentas para desenvolvimento com framework Laravel."
+    "Instala o ecossistema Ruby ${RUBY_VERSION} via rbenv, Bundler e ferramentas para desenvolvimento web com Ruby on Rails."
+    "Instala Go ${GO_VERSION}, Rust/Cargo, Python ${PYTHON_VERSION} com o gerenciador 'uv' e utilitário CLI de QR Code."
+    "Instala o ecossistema JavaScript/TypeScript: Node.js 24 LTS, runtime Bun, gerenciador pnpm e gerenciador de processos PM2."
+    "Instala a stack DevOps: Docker Engine/Desktop, Docker Compose, interface web Portainer, automação Ansible e GitHub CLI (gh)."
+    "Instala utilitários modernos de terminal via Brew (bat, eza, zoxide, fzf, ripgrep, fd, lazygit, lazydocker, neovim, glow, jq, fastfetch, duf, mise)."
+    "Instala ferramentas de rede e monitoramento em tempo real (htop, btop, glances, ctop, gping, trippy, rustscan) e VPN Mesh Tailscale."
+    "Instala e configura o serviço OpenSSH Server para permitir conexões remotas seguras para a máquina (somente Linux)."
+    "Instala ZSH, Oh My Zsh, plugins (syntax-highlighting, autosuggestions, history-substring-search), Nerd Fonts, prompt customizado e aliases modulares em ~/.config/zsh/aliases.zsh."
+    "Instala e configura o multiplexador Tmux com TPM (Tmux Plugin Manager), layout e atalhos otimizados."
+    "Instala a suíte de ferramentas de IA para terminal: Claude Code, OpenAI Codex, GitHub Copilot CLI, OpenCode, Kimi, Skills CLI, Herdr, Antigravity CLI (agy) e Spec-Kit."
+    "Configura a inicialização automática do PM2 com ecosystem.config.js, limpa caches temporários de pacotes e conclui a instalação."
+)
+
 
 # Variable to track status
 declare -a STEP_STATUS
@@ -459,23 +502,37 @@ header() {
 
 show_roadmap_and_wait() {
     header
-    echo -e "${BOLD}SetupVibe Desktop - Installation Roadmap:${NC}\n"
+    echo -e "${BOLD}SetupVibe Desktop - Roteiro de Instalação:${NC}\n"
     for i in "${!STEPS[@]}"; do
         echo -e "  [$(($i+1))/${#STEPS[@]}] ${STEPS[$i]}"
     done
     echo ""
     echo -e "--------------------------------------------------------"
-    echo -e "${YELLOW}  ➜ Press [ENTER] to start SetupVibe Desktop.${NC}"
-    echo -e "${RED}  ➜ Type 'q' + ENTER to cancel.${NC}"
+    if $AUTO_INSTALL; then
+        echo -e "${GREEN}  ➜ Modo automático ativado (-y): todas as fases serão instaladas.${NC}"
+        echo -e "${YELLOW}  ➜ Pressione [ENTER] para iniciar.${NC}"
+        echo -e "${RED}  ➜ Digite 'q' + ENTER para cancelar.${NC}"
+    else
+        echo -e "${YELLOW}  ➜ Pressione [ENTER] para escolher quais fases instalar (Personalizado).${NC}"
+        echo -e "${GREEN}  ➜ Digite 'a' + ENTER para instalar TODAS as fases direto.${NC}"
+        echo -e "${RED}  ➜ Digite 'q' + ENTER para cancelar.${NC}"
+    fi
     echo -e "--------------------------------------------------------"
 
     if ! tty >/dev/null 2>&1 </dev/tty; then
-        die "An interactive terminal is required to run desktop.sh."
+        if $AUTO_INSTALL; then
+            return 0
+        fi
+        die "Um terminal interativo é necessário para executar desktop.sh (ou utilize a flag -y)."
     fi
-    read -r key </dev/tty || die "Interactive terminal input became unavailable."
+    read -r key </dev/tty || die "Entrada interativa do terminal ficou indisponível."
     if [[ "$key" == "q" || "$key" == "Q" ]]; then
-        echo -e "\n${RED}[CANCELLED] See you next time!${NC}"
+        echo -e "\n${RED}[CANCELADO] Instalação interrompida.${NC}"
         exit 0
+    elif [[ "$key" == "a" || "$key" == "A" ]]; then
+        AUTO_INSTALL=true
+        INTERACTIVE_SELECTION=false
+        echo -e "\n${GREEN}Modo automático selecionado: todas as fases serão instaladas.${NC}"
     fi
 }
 
@@ -523,13 +580,41 @@ configure_git_interactive() {
 run_section() {
     local index=$1
     local title="${STEPS[$index]}"
+    local description="${STEP_DESCRIPTIONS[$index]:-}"
+    local func=$2
     local status
     local managed_dir
+    local answer
 
     echo ""
     echo -e "${BLUE}========================================================${NC}"
     echo -e "${BOLD}▶ [$(($index+1))/${#STEPS[@]}] $title ${NC}"
     echo -e "${BLUE}========================================================${NC}"
+
+    if [[ -n "$description" ]]; then
+        echo -e "${CYAN}ℹ  $description${NC}"
+        echo ""
+    fi
+
+    if $INTERACTIVE_SELECTION && ! $AUTO_INSTALL; then
+        echo -ne "${YELLOW}➜ Deseja instalar esta fase? [S/n]: ${NC}"
+        if tty >/dev/null 2>&1 </dev/tty; then
+            read -r answer </dev/tty || answer="s"
+        else
+            answer="s"
+        fi
+
+        case "$answer" in
+            n|N|nao|NAO|não|NÃO|no|NO)
+                echo -e "${YELLOW}↷ Fase pulada pelo usuário.${NC}"
+                STEP_STATUS[$index]="${YELLOW}↷ Skipped${NC}"
+                return 0
+                ;;
+            *)
+                echo -e "${GREEN}==> Instalando...${NC}"
+                ;;
+        esac
+    fi
 
     # Pick up Homebrew installed by a previous step or an older SetupVibe run.
     resolve_brew_prefix || true
@@ -554,7 +639,7 @@ run_section() {
     set +e
     (
         set -Eeuo pipefail
-        "$2"
+        "$func"
     )
     status=$?
     set -e

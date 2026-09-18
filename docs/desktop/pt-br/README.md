@@ -20,6 +20,8 @@ Instala e configura um stack de desenvolvedor completo em um comando. Suporta ma
 
 ## Instalação
 
+### Modo Interativo (Escolha fase por fase com explicações)
+
 ```bash
 curl -sSL desktop.setupvibe.dev | bash
 ```
@@ -30,7 +32,19 @@ Ou localmente:
 bash desktop.sh
 ```
 
-O script exibe um roteiro interativo e solicita confirmação antes de iniciar. Também solicita a configuração da identidade do Git, caso ainda não esteja definida.
+### Modo Automático (Instala todas as 14 fases sem confirmação individual)
+
+```bash
+curl -sSL desktop.setupvibe.dev | bash -s -- --yes
+```
+
+Ou localmente:
+
+```bash
+bash desktop.sh --yes
+```
+
+O script exibe um roteiro interativo com a descrição de cada fase (Laravel, Docker, IA, etc.) e permite decidir se instala ou pula (`↷ Skipped`) cada uma delas.
 
 ## Skill de setup
 
@@ -40,9 +54,9 @@ cada projeto com `npx skills add <origem>`.
 
 ---
 
-## O Que é Instalado
+## O Que é Instalado (14 Fases)
 
-**14 etapas, totalmente automatizadas.**
+Cada etapa possui uma descrição detalhada e pode ser selecionada ou pulada individualmente durante a instalação interativa:
 
 ### Etapa 1 — Sistema Base e Ferramentas de Build
 
