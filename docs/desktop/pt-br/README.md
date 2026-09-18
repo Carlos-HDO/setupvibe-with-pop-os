@@ -251,6 +251,6 @@ Contribuições de todos os tamanhos são bem-vindas! Por favor, leia nosso [Gui
 
 Licenciado sob a **GNU General Public License v3.0** — veja [LICENSE](../../../LICENSE) para detalhes.
 
-Mantido por [promovaweb.com](https://promovaweb.com) · <contato@promovaweb.com>
+Mantido por **Carlos Dias** · <carlos.dias.security2026@proton.me>
 
 ---
