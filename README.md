@@ -93,12 +93,9 @@ Use `bash omarchy.sh --yes` for an unattended local run. See the [Omarchy
 installation guide](docs/omarchy/README.md) for the preserved components and
 the added layer.
 
-## Contributing
-
-We welcome contributions of all sizes! Please read our [Contribution Guide](CONTRIBUTING.md) to get started.
 
 ---
 
-Maintained by [promovaweb.com](https://promovaweb.com) · Licensed under [GPL-3.0](LICENSE)
+Created by [promovaweb.com](https://promovaweb.com) · Licensed under [GPL-3.0](LICENSE)
 
 ---
