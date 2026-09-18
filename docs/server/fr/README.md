@@ -180,6 +180,6 @@ Toutes les contributions de toutes tailles sont les bienvenues ! Veuillez lire n
 
 Sous licence **GNU General Public License v3.0** — voir [LICENSE](../../../LICENSE) pour plus de détails.
 
-Maintenu par [promovaweb.com](https://promovaweb.com) · <contato@promovaweb.com>
+Maintenu par **Carlos Dias** · <carlos.dias.security2026@proton.me>
 
 ---

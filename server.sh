@@ -5,9 +5,9 @@ IFS=$'\n\t'
 # ==============================================================================
 # SETUPVIBE.DEV - LINUX SERVER EDITION
 # ==============================================================================
-# Maintainer:    promovaweb.com
-# Contact:       contato@promovaweb.com
-# Contributing:  https://github.com/promovaweb/setupvibe/blob/main/CONTRIBUTING.md
+# Maintainer:    Carlos Dias
+# Contact:       carlos.dias.security2026@proton.me
+# Contributing:  https://github.com/Carlos-HDO/setupvibe-with-pop-os/blob/main/CONTRIBUTING.md
 # ------------------------------------------------------------------------------
 # Compatibility: Zorin OS 18+, Ubuntu 24.04+, Debian 12+
 # Architectures: x86_64 (amd64) & ARM64 (aarch64/arm64)
@@ -426,7 +426,7 @@ header() {
     fi
     echo -e "${NC}"
     echo -e "${CYAN}:: Linux Server Edition ::${NC}"
-    echo -e "${YELLOW}Maintained by PromovaWeb.com | Contact: contato@promovaweb.com${NC}"
+    echo -e "${YELLOW}Maintained by Carlos Dias | Contact: carlos.dias.security2026@proton.me${NC}"
     echo "--------------------------------------------------------"
     echo "OS: ${OS_PRETTY_NAME:-$ORIGINAL_DISTRO_ID} | Arch: $ARCH_RAW | User: $REAL_USER"
     echo "--------------------------------------------------------"

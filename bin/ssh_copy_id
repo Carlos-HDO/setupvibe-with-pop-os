@@ -2,7 +2,7 @@
 #
 # Nome: ssh_copy_id
 # Autor: Luiz Eduardo de Oliveira Fonseca <luizeof@gmail.com>
-# Organizacao: promovaweb.com <contato@promovaweb.com>
+# Organizacao: Carlos Dias <carlos.dias.security2026@proton.me>
 # Versao: 0.41.8
 # Descricao: Copia a chave publica SSH local para um servidor remoto usando
 #            autenticacao por senha. A senha pode ser informada com --pass ou

@@ -129,6 +129,6 @@ We welcome contributions of all sizes! Please read our [Contribution Guide](../C
 
 ---
 
-Maintained by [promovaweb.com](https://promovaweb.com) · Licensed under [GPL-3.0](../LICENSE)
+Maintained by **Carlos Dias** (<carlos.dias.security2026@proton.me>) · Licensed under [GPL-3.0](../LICENSE)
 
 ---
