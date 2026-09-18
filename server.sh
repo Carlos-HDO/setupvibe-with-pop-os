@@ -304,7 +304,7 @@ case "$ORIGINAL_DISTRO_ID" in
     debian)
         DISTRO_ID=debian
         ;;
-    zorin)
+    zorin|pop|linuxmint)
         DISTRO_ID=ubuntu
         DISTRO_CODENAME=$UBUNTU_BASE_CODENAME
         ;;
@@ -317,7 +317,7 @@ esac
     die "Unable to determine the distribution version and repository codename."
 
 case "$ORIGINAL_DISTRO_ID" in
-    ubuntu)
+    ubuntu|pop|zorin|linuxmint)
         dpkg --compare-versions "$DISTRO_VERSION" ge 24.04 ||
             die "Ubuntu 24.04 or newer is required."
         ;;

@@ -333,7 +333,7 @@ if $IS_LINUX; then
     DISTRO_ID=$(lsb_release -is 2>/dev/null | tr '[:upper:]' '[:lower:]')
     DISTRO_CODENAME=$(lsb_release -cs 2>/dev/null)
     # Map derivative distros to their Ubuntu base codename for repository compatibility
-    if [[ "$DISTRO_ID" == "zorin" || "$DISTRO_ID" == "linuxmint" ]]; then
+    if [[ "$DISTRO_ID" == "zorin" || "$DISTRO_ID" == "linuxmint" || "$DISTRO_ID" == "pop" ]]; then
         DISTRO_ID="ubuntu"
         BASE_CODENAME=$(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release 2>/dev/null)
         if [[ -n "$BASE_CODENAME" ]]; then
@@ -602,7 +602,7 @@ safe_download() {
         --retry 3 \
         --retry-all-errors \
         --connect-timeout 10 \
-        --max-time 120 \
+        --max-time 600 \
         --output "$tmp" \
         "$url"; then
         echo -e "${RED}✘ Download failed: $url${NC}"
@@ -1264,7 +1264,7 @@ step_6() {
     npm_path="$npm_path/bin:$PATH"
 
     echo "Installing pnpm..."
-    user_do env PATH="$npm_path" "$npm_bin" install -g pnpm npm@latest
+    user_do env PATH="$npm_path" "$npm_bin" install -g pnpm
 
     echo "Installing PM2..."
     user_do env PATH="$npm_path" "$npm_bin" install -g pm2
@@ -1308,6 +1308,7 @@ step_7() {
             esac
         fi
 
+        sys_do rm -f -- /etc/apt/sources.list.d/docker.list /etc/apt/sources.list.d/docker.sources /etc/apt/keyrings/docker.asc /etc/apt/keyrings/docker.gpg
         install_key "https://download.docker.com/linux/$DISTRO_ID/gpg" "/etc/apt/keyrings/docker.gpg"
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/$DISTRO_ID $DOCKER_CODENAME stable" | sys_do tee /etc/apt/sources.list.d/docker.list
         

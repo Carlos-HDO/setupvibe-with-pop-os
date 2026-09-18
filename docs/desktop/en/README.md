@@ -10,6 +10,7 @@ Installs and configures a complete developer stack in one command. Supports macO
 | ----------------- | ------------------------------- |
 | **macOS**         | 12 Monterey and newer           |
 | **Ubuntu**        | 24.04+                          |
+| **Pop!_OS**       | 24.04+                          |
 | **Debian**        | 12+                             |
 | **Zorin OS**      | 18+                             |
 | **Linux Mint**    | 21+                             |

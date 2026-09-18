@@ -10,6 +10,7 @@ Instala e configura um stack de desenvolvedor completo em um comando. Suporta ma
 | ----------------- | ------------------------------- |
 | **macOS**          | 12 Monterey ou superior         |
 | **Ubuntu**         | 24.04+                          |
+| **Pop!_OS**        | 24.04+                          |
 | **Debian**         | 12+                             |
 | **Zorin OS**       | 18+                             |
 | **Linux Mint**     | 21+                             |
