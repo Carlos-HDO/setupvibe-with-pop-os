@@ -246,5 +246,11 @@ alias dotenv="export \$(cat .env | grep -v '^#' | xargs)" # Carrega variáveis d
 # --- Configurações Personalizadas ---
 alias zlocal="nano ~/.zshrc.local"              # Edita o arquivo de configurações personalizadas
 
+# Módulos externos
+source_if_exists() { [ -f "$1" ] && source "$1"; }
+CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+source_if_exists "$CONF_DIR/aliases.zsh"
+
 # Carrega configurações locais sem substituir o arquivo do usuário.
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+

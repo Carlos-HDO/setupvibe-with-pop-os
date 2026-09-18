@@ -844,6 +844,13 @@ step_5() {
     user_do sed -i 's/╭/┌/g; s/╰/└/g' "$REAL_HOME/.config/starship.toml"
 
     backup_file_once "$REAL_HOME/.zshrc"
+    user_do mkdir -p "$REAL_HOME/.config/zsh"
+    if [ -f "$SCRIPT_DIR/conf/aliases.zsh" ]; then
+        user_do cp "$SCRIPT_DIR/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+    else
+        safe_download "$RAW_BASE_URL/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+    fi
+
     if [ -f "$SCRIPT_DIR/conf/zshrc-server.zsh" ]; then
         user_do cp "$SCRIPT_DIR/conf/zshrc-server.zsh" "$REAL_HOME/.zshrc"
     else

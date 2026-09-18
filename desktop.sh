@@ -1543,7 +1543,14 @@ step_11() {
             --force -o "$REAL_HOME/.config/starship.toml"
         perl -i -pe 's/╭/┌/g; s/╰/└/g; s/\x{e0b6}/\x{e0b2}/g; s/\x{e0b4}/\x{e0b0}/g' "$REAL_HOME/.config/starship.toml"
 
-        # macOS ZSHRC
+        # macOS ZSHRC & Aliases
+        user_do mkdir -p "$REAL_HOME/.config/zsh"
+        if [ -f "$SCRIPT_DIR/conf/aliases.zsh" ]; then
+            user_do cp "$SCRIPT_DIR/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+        else
+            safe_download "$RAW_BASE_URL/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+        fi
+
         if [ -f "$SCRIPT_DIR/conf/zshrc-macos.zsh" ]; then
             user_do cp "$SCRIPT_DIR/conf/zshrc-macos.zsh" "$REAL_HOME/.zshrc"
         else
@@ -1584,7 +1591,15 @@ step_11() {
             --force -o "$REAL_HOME/.config/starship.toml"
         perl -i -pe 's/╭/┌/g; s/╰/└/g; s/\x{e0b6}/\x{e0b2}/g; s/\x{e0b4}/\x{e0b0}/g' "$REAL_HOME/.config/starship.toml"
 
-        # Linux ZSHRC
+        # Linux ZSHRC & Aliases
+        user_do mkdir -p "$REAL_HOME/.config/zsh"
+        if [ -f "$SCRIPT_DIR/conf/aliases.zsh" ]; then
+            user_do cp "$SCRIPT_DIR/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+        else
+            safe_download "$RAW_BASE_URL/conf/aliases.zsh" "$REAL_HOME/.config/zsh/aliases.zsh"
+        fi
+        sys_do chown -R "$REAL_USER:$REAL_GROUP" "$REAL_HOME/.config/zsh"
+
         if [ -f "$SCRIPT_DIR/conf/zshrc-linux.zsh" ]; then
             user_do cp "$SCRIPT_DIR/conf/zshrc-linux.zsh" "$REAL_HOME/.zshrc"
         else

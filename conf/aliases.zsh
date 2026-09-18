@@ -1,47 +1,193 @@
-# 1. PATH CONFIGURATION (Must come first!)
-# Homebrew
-if [[ -f "/opt/homebrew/bin/brew" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -f "/usr/local/bin/brew" ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-fi
+# arquivo: ~/.config/zsh/aliases.zsh
 
-# Define PATHs before loading plugins so they can find the tools
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/Library/Python/3.14/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-export PATH="$HOME/.composer/vendor/bin:$PATH"
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+#############################################################################################################################
 
+### 1 ls
+alias ll='ls -l --color=auto'             # lista arquivos em formato detalhado.
+alias la='ls -lhtaF --color=auto'         # lista tudo (inclui ocultos), em ordem de tempo, com tipo/anexo e cores.
+alias l='ls -lhaF --color=auto'           # listagem detalhada, tamanhos legíveis, inclui arquivos ocultos, adiciona um símbolo indicando tipo (/ para diretório, * para executável)
+alias lc='ls -CF --color=auto'            # mostra os arquivos em colunas (layout mais compacto), adiciona um caractere especial indicando o tipo (/ para diretório, * para executável, @ para link simbólico, etc.).
 
-# 2. INIT TOOLS (Env Setup)
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-if command -v rbenv >/dev/null; then eval "$(rbenv init -)"; fi
+### 2: cd helpers
+alias ,='cd ..'                           # sobe 1 pasta usando vírgula
+alias cd..='cd ..'                        # sobe 1 pasta.
+alias ..='cd ../../'                      # sobe 2 pastas.
+alias ...='cd ../../../'                  # sobe 3 pastas.
+alias ....='cd ../../../../'              # sobe 4 pastas.
+alias .....='cd ../../../../../'          # sobe 5 pastas.
 
+### 3: Create parent directories on demand
+alias mkdir='mkdir -pv'                   # cria pastas e subpastas, mostrando o que fez.
+# alias mv='mv -i'
+alias rm='rm -I'                          # pergunta apenas em casos mais perigosos, como muitos arquivos ou recursivo.
 
-# 3. OH-MY-ZSH CONFIG
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="" # Disabled because Starship handles it
+### 4: Colorize diff output
+alias diffu='colordiff -u'                # mostra o que mudou entre dois arquivos. Com u para mostrar todas as linhas
 
-# Plugins
-plugins=(git rsync cp extract zoxide fzf zsh-autosuggestions zsh-syntax-highlighting brew gh ansible docker docker-compose laravel composer rails ruby python pip node npm bun golang rust macos)
+### 5: Command short cuts to save time
+alias h='history'                         # mostra o histórico
+alias j='jobs -l'                         # j para ver jobs suspensos (Ctrl+Z), com PID
 
-source $ZSH/oh-my-zsh.sh
+### 6: Create a new set of commands
+alias path='echo -e ${PATH//:/\\n}'       # substitui : por \n e imprime uma entrada por linha.
+alias now='date +"%T"'                    # HH:MM:SS.
+alias nowtime=now                         # define um alias que expande para o alias now.
+alias nowdate='date +"%d-%m-%Y"'
 
+### 7: Set vim e nano as default
+alias vi=vim
+alias svi='sudo vim'
+alias vis='vim "+set si"'
+alias edit='vim'
+alias snano='sudo nano'
 
-# 4. STARSHIP & ZOXIDE
-if command -v zoxide >/dev/null; then eval "$(zoxide init zsh)"; fi
-if command -v starship >/dev/null; then eval "$(starship init zsh)"; fi
+### 8: Control output of networking tool called ping
+alias cip='curl -s ip-api.com'            # -s para não mostrar a barra de progresso
+alias ci='curl -s ip-api.com/json | jq "{query, country, city, isp, org}"'
+alias p1='ping 1.1.1.1'
+alias p8='ping 8.8.8.8'
+alias ping5='ping -c 5'                   # envia 5 ICMP e finaliza.
+alias fping='ping -c 100 -i 0.2'          # fast ping - 100 pacotes com intervalo 0.2s.
 
+### 9: Show open ports
+alias ports='sudo ss -tuanp'              # TCP+UDP, listening+conexões, numérico, com PID/programa
+alias ports_l='sudo ss -tulnp'            # somente sockets em escuta, TCP+UDP, numérico, com sudo
 
-# 5. ALIASES
+### 10: Resume wget by default
+alias wget='wget -c'                      # ativa continue por padrão (útil com quedas).
 
+### 11: Copy and paste - clipboard
+# alias copy='xsel --input --clipboard'   # X11: copia para a área de transferência.
+# alias paste='xsel --output --clipboard' # X11: cola da área de transferência.
+alias copy='wl-copy'                      # Wayland
+alias paste='wl-paste'                    # Wayland
+
+### 12: Para tirar um erro que tem no Terminator ao copiar em duas telas
+# pkill -9 ibus
+
+### 13: grep com cor
+alias grep='grep --color=auto'
+alias egrep='grep -E --color=auto'
+alias fgrep='grep -F --color=auto'
+alias dir='dir --color=auto'
+
+### 14: Ajuste de telas
+alias tela1='xrandr --output eDP-1 --scale 0.75x0.75'
+# alias tela2='xrandr --output DP-1-0 --scale 0.75x0.75'
+# alias tela3='xrandr --output HDMI-1-0 --scale 0.75x0.75'
+# xrandr --query | grep -E ' connected'   # lista os nomes reais das saídas das telas
+
+### 15: Kasm
+alias kasm-restart='sudo /opt/kasm/bin/stop && sudo /opt/kasm/bin/start'
+alias kasm-stop='sudo /opt/kasm/bin/stop'
+alias kasm-start='sudo /opt/kasm/bin/start'
+
+### 16: Outros
+alias xfreerdp='xfreerdp3'
+alias neofetch='echo "" && neowofetch'
+alias fup='flatpak update -y'
+# alias myalias='cat ~/.config/zsh/aliases.zsh'
+alias myalias='~/Documentos/5_my_codes/myaliases.sh'
+alias c='~/Documentos/5_my_codes/copy.sh'
+
+### 17: Função APT UPGRADE “tudo em um”
+# alias upup='sudo apt update && apt list --upgradable ; sleep 4 && sudo apt upgrade -y ; flatpak update ; sudo apt autoclean && sudo apt autoremove -y ; sudo updatedb'
+
+unalias upup 2>/dev/null
+
+upup() {
+    local automatico=0
+    local -a opcao_confirmacao=()
+
+    case "${1:-}" in
+        -y|--yes)
+            automatico=1
+            opcao_confirmacao=(-y)
+            shift
+            ;;
+        "")
+            ;;
+        *)
+            echo "Uso: upup [-y|--yes]" >&2
+            return 2
+            ;;
+    esac
+
+    if (( $# > 0 )); then
+        echo "Uso: upup [-y|--yes]" >&2
+        return 2
+    fi
+
+    if (( automatico )); then
+        echo "==> Modo automático ativado (-y)."
+    fi
+
+    echo "==> Validando sudo..."
+    sudo -v || return
+
+    echo
+    echo "==> Atualizando lista de pacotes APT..."
+    sudo apt update "${opcao_confirmacao[@]}" || return
+
+    echo
+    echo "==> Pacotes atualizáveis:"
+    local pacotes
+    pacotes=$(apt list --upgradable 2>/dev/null | sed '1d')
+
+    if [[ -z "$pacotes" ]]; then
+        echo "Nenhum pacote APT para atualizar."
+    else
+        echo "$pacotes"
+
+        if (( ! automatico )); then
+            echo
+            read -r "resposta?Deseja continuar com o upgrade APT? [s/N] "
+
+            case "$resposta" in
+                s|S|sim|SIM)
+                    echo "==> Iniciando atualização APT..."
+                    ;;
+                *)
+                    echo "Atualização cancelada."
+                    return
+                    ;;
+            esac
+        fi
+
+        echo
+        echo "==> Atualizando pacotes APT..."
+        sudo apt upgrade "${opcao_confirmacao[@]}" || return
+    fi
+
+    if command -v flatpak >/dev/null 2>&1; then
+        echo
+        echo "==> Atualizando Flatpaks..."
+        flatpak update "${opcao_confirmacao[@]}"
+    fi
+
+    echo
+    echo "==> Removendo pacotes desnecessários..."
+    sudo apt autoremove "${opcao_confirmacao[@]}"
+
+    echo
+    echo "==> Limpando cache APT..."
+    sudo apt autoclean "${opcao_confirmacao[@]}"
+
+    if command -v updatedb >/dev/null 2>&1; then
+        echo
+        echo "==> Atualizando banco do locate..."
+        sudo updatedb
+    fi
+
+    echo
+    echo "==> Sistema atualizado."
+}
+
+#############################################################################################################################
+# ALIASES IMPORTADOS — apenas nomes que não existiam na configuração acima
+#############################################################################################################################
 # --- SetupVibe ---
-alias setupvibe="curl -sSL desktop.setupvibe.dev | bash"                      # Reinstala ou atualiza o SetupVibe Desktop
+#alias setupvibe="curl -sSL desktop.setupvibe.dev | bash"                      # Reinstala ou atualiza o SetupVibe Desktop
 
 # --- AI CLIs ---
 alias cc="claude --permission-mode=auto --dangerously-skip-permissions"        # Claude CLI sem confirmações
@@ -66,22 +212,15 @@ alias spup="uv tool upgrade specify-cli"        # Atualiza o Spec-Kit para a ver
 # --- Shell ---
 alias zconfig="nano ~/.zshrc"                   # Edita o arquivo de configuração do ZSH
 alias reload="source ~/.zshrc"                  # Recarrega as configurações do ZSH e as personalizadas locais sem reiniciar o terminal
-alias path='echo -e ${PATH//:/\\n}'                      # Exibe cada entrada do PATH em uma linha separada
-alias h="history | grep"                        # Busca no histórico de comandos (ex: h docker)
 alias cls="clear"                               # Limpa o terminal
 alias please="sudo"                             # Atalho amigável para sudo
 alias week="date +%V"                           # Exibe o número da semana atual
 
 # --- Navegação & Filesystem ---
-alias ..="cd .."                                # Sobe um nível de diretório
-alias ...="cd ../.."                            # Sobe dois níveis de diretório
-alias ....="cd ../../.."                        # Sobe três níveis de diretório
-alias ll="ls -lhA"                              # Lista arquivos com detalhes e tamanho legível
-alias la="ls -A"                                # Lista todos os arquivos incluindo ocultos
 alias lsd="ls -d */ 2>/dev/null"                # Lista apenas diretórios
 alias md="mkdir -p"                             # Cria diretório e subdiretórios automaticamente
 alias rmf="rm -rf"                              # Remove arquivos e diretórios recursivamente sem confirmação
-alias du1="du -h -d 1"                          # Uso de disco do diretório atual, um nível de profundidade
+alias du1="du -h --max-depth=1"                 # Uso de disco do diretório atual, um nível de profundidade
 
 # --- Tmux ---
 alias t="tmux"                                  # Atalho para o tmux
@@ -146,7 +285,6 @@ alias ghwfr="gh workflow run"                   # Dispara um workflow manualment
 alias ghrel="gh release list"                   # Lista releases do repositório
 alias ghrelc="gh release create"                # Cria uma nova release (ex: ghrelc v1.0.0)
 alias ghgist="gh gist create"                   # Cria um Gist a partir de arquivo (ex: ghgist file.sh)
-alias ghssh="gh ssh-key list"                   # Lista chaves SSH cadastradas na conta GitHub
 
 # --- SSH ---
 alias ssha="ssh-add"                            # Adiciona chave SSH ao agente (ex: ssha ~/.ssh/id_ed25519)
@@ -214,9 +352,14 @@ alias agl-restart="pm2 restart agentlytics"          # Reinicia o Agentlytics
 alias agl-logs="pm2 logs agentlytics"                # Segue os logs do Agentlytics
 alias agl-show="pm2 show agentlytics"                # Mostra detalhes do Agentlytics
 
-# --- Homebrew ---
-alias update="brew update && brew upgrade"      # Atualiza o Homebrew e todos os pacotes instalados
-alias brewup="brew update && brew upgrade && brew cleanup" # Atualiza e remove versões antigas
+# --- PHP / Laravel ---
+alias update="sudo apt update && sudo apt upgrade && (command -v brew >/dev/null 2>&1 && brew update && brew upgrade || true)" # Atualiza APT e Homebrew
+alias apti="sudo apt install"                   # Instala um pacote via APT (ex: apti htop)
+alias aptr="sudo apt remove"                    # Remove um pacote via APT
+alias apts="apt search"                         # Busca pacotes nos repositórios APT
+alias aptshow="apt show"                        # Exibe detalhes de um pacote APT
+alias aptls="dpkg -l | grep"                    # Filtra pacotes instalados (ex: aptls nginx)
+alias brewup="brew update && brew upgrade && brew cleanup" # Atualiza Homebrew e remove versões antigas
 alias brewls="brew list"                        # Lista todos os pacotes instalados via Homebrew
 alias brewinfo="brew info"                      # Exibe informações sobre um pacote (ex: brewinfo git)
 alias brewsearch="brew search"                  # Busca pacotes no Homebrew (ex: brewsearch ripgrep)
@@ -240,7 +383,6 @@ alias artdb="php artisan db"                    # Abre conexão interativa com o
 alias artmodel="php artisan make:model"         # Cria um Model (ex: artmodel Post -m)
 alias artjob="php artisan make:job"             # Cria um Job para filas (ex: artjob ProcessPayment)
 alias artevent="php artisan event:list"         # Lista todos os eventos e listeners registrados
-alias ci="composer install"                     # Instala dependências do composer.json
 alias cu="composer update"                      # Atualiza dependências para versões permitidas
 alias creq="composer require"                   # Adiciona um pacote (ex: creq vendor/pacote)
 alias creqd="composer require --dev"            # Adiciona pacote como dev-dependency
@@ -329,17 +471,30 @@ alias cronl="crontab -l"                        # Lista as tarefas cron do usuá
 alias crone="crontab -e"                        # Edita as tarefas cron do usuário atual
 alias cronr="crontab -r"                        # Remove todas as tarefas cron do usuário atual (CUIDADO)
 
-# --- Sistema (macOS) ---
-alias topc="top -o cpu"                         # Monitora processos ordenados por uso de CPU
-alias topm="top -o mem"                         # Monitora processos ordenados por uso de memória
+# --- Network ---
 alias psg="ps aux | grep"                       # Busca processos por nome (ex: psg nginx)
 alias df="df -h"                                # Uso de disco com tamanhos legíveis
-alias flush="dscacheutil -flushcache && sudo killall -HUP mDNSResponder" # Limpa o cache de DNS
+alias meminfo="free -h"                         # Exibe uso de memória RAM e swap
+alias diskinfo="df -h"                          # Exibe uso de disco de todas as partições
+alias cpuinfo="lscpu"                           # Exibe informações detalhadas sobre a CPU
+alias sysinfo="hostnamectl"                     # Exibe informações do sistema operacional e hostname
+alias topc="top -bn1 | head -20"               # Snapshot dos processos com maior uso de recursos
 
-# --- Rede (macOS) ---
+# --- Serviços (systemd) ---
+alias sstatus="sudo systemctl status"           # Exibe o status de um serviço (ex: sstatus nginx)
+alias sstart="sudo systemctl start"             # Inicia um serviço (ex: sstart nginx)
+alias sstop="sudo systemctl stop"               # Para um serviço (ex: sstop nginx)
+alias srestart="sudo systemctl restart"         # Reinicia um serviço (ex: srestart nginx)
+alias senable="sudo systemctl enable"           # Habilita um serviço para iniciar no boot
+alias sdisable="sudo systemctl disable"         # Desabilita um serviço no boot
+alias slogs="sudo journalctl -u"                # Exibe logs de um serviço específico (ex: slogs nginx)
+alias syslog="sudo journalctl -f"               # Segue o log do sistema em tempo real
+
+# --- Rede (Linux) ---
 alias myip="curl -s ifconfig.me"                # Exibe o IP público da máquina
-alias localip="ipconfig getifaddr en0"          # Exibe o IP local da interface Wi-Fi
-alias ports="lsof -iTCP -sTCP:LISTEN -n -P"    # Lista todas as portas TCP em escuta
+alias localip="hostname -I | awk '{print \$1}'" # Exibe o IP local principal da máquina
+alias wholistening="ss -tulnp"                  # Alias alternativo para listar portas em escuta
+alias flush="sudo systemd-resolve --flush-caches" # Limpa o cache de DNS do systemd
 
 # --- cURL / HTTP ---
 alias get="curl -s"                             # GET request simples (ex: get https://api.exemplo.com)
@@ -365,15 +520,3 @@ alias dotenv="export \$(cat .env | grep -v '^#' | xargs)" # Carrega variáveis d
 
 # --- Configurações Personalizadas ---
 alias zlocal="nano ~/.zshrc.local"              # Edita o arquivo de configurações personalizadas
-
-# 6. MÓDULOS EXTERNOS
-source_if_exists() { [ -f "$1" ] && source "$1"; }
-CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
-source_if_exists "$CONF_DIR/aliases.zsh"
-
-# 7. USER CUSTOM CONFIGURATIONS
-# Load custom configurations from ~/.zshrc.local if it exists
-# Use this file to add your own aliases, functions, and variables.
-# This file is never overwritten by SetupVibe updates.
-[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
-
