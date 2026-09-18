@@ -3,7 +3,7 @@
 > The ultimate cross-platform development environment setup script — v0.41.11
 
 > [!NOTE]
-> **About this fork:** **SetupVibeD** is an enhanced fork of the official [SetupVibe](https://github.com/promovaweb/setupvibe) project maintained by the [PromovaWeb](https://promovaweb.com) community. This edition includes native compatibility and optimizations for **Pop!_OS**, automatic Docker APT repository/keyring conflict resolution, streamlined PNPM installation, and extended download timeouts for large assets and font packages.
+> **About this fork:** **SetupVibeD** is an enhanced fork of the official [SetupVibe](https://github.com/promovaweb/setupvibe) project maintained by the [PromovaWeb](https://promovaweb.com) community. This edition includes native compatibility and optimizations for **Pop!_OS**, automatic Docker APT repository/keyring conflict resolution, streamlined PNPM installation, extended download timeouts for large assets/fonts, and a curated classic color ZSH prompt with `vcs_info` Git branch status and history substring search (`↑` / `↓`).
 
 Installs and configures a development environment in one command, supporting Windows 11, macOS, major Linux distributions (**Ubuntu, Pop!_OS, Debian, Zorin OS, Linux Mint**) and Omarchy 4. The Windows Edition focuses on native utilities, Python, Node.js, selected native AI CLIs, and the WSL 2 base system. The Unix Desktop Edition includes complete language ecosystems and a broader AI toolkit, the Server Edition remains focused on operations tooling, and the Omarchy edition adds only the SetupVibe layer that is not already present in the operating system.
 
@@ -25,7 +25,7 @@ Installs and configures a development environment in one command, supporting Win
 - **Smart Privilege Elevation:** Uses `sudo` only where strictly necessary on macOS and Linux; most tools are installed in `$HOME/.local/bin`.
 - **Global QR Code Generator:** Installs the PyPI `qrcode` package for the target user on macOS and Linux, exposing its `qr` command in the shell.
 - **Auto-Update:** Automatically upgrades existing Homebrew packages during setup.
-- **Modern Shell:** ZSH + Oh My Zsh + Starship with a curated set of plugins and aliases.
+- **Modern Shell:** ZSH + Oh My Zsh with a curated classic color prompt (timestamp, user@host, path, Git branch via vcs_info), history substring search with up/down arrows, shared incremental history, and modular aliases.
 - **Optimized Tmux:** Pre-configured with TPM, intuitive keybindings, and window/pane numbering starting at 1.
 - **Current Runtimes:** PHP 8.5, Ruby 3.4.10, Go 1.26.5, Python 3.14 on macOS, and Node.js 24 LTS.
 - **AI-Ready Unix Editions:** Includes the latest AI CLI tools for developers on macOS, Linux, and WSL.

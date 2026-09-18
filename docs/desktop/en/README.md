@@ -134,17 +134,17 @@ Installed via Homebrew on both platforms.
 - Configures `PermitRootLogin prohibit-password` and `PasswordAuthentication yes`
 - Backs up original `sshd_config` before modifying
 
-### Step 11 — Shell (ZSH & Starship)
+### Step 11 — Shell (ZSH & Custom Color Prompt)
 
 - Installs ZSH (Linux via APT; already default on macOS)
 - Installs Oh My Zsh (unattended)
-- Clones `zsh-autosuggestions` and `zsh-syntax-highlighting` plugins
+- Clones `zsh-autosuggestions`, `zsh-syntax-highlighting` and enables `history-substring-search` plugins (with `↑` and `↓` arrow keybindings)
 - Installs Nerd Fonts: **FiraCode** and **JetBrains Mono** (Homebrew Cask on macOS; v3.4.0 downloaded to `~/.local/share/fonts` on Linux)
-- Installs Starship prompt and applies the **Gruvbox Rainbow** preset
+- Configures the classic curated color prompt (`Timestamp` + `User@Host` + `Directory` + `Git Branch via vcs_info`) with shared incremental history
 - Downloads helper scripts from [`bin/`](../../../bin) to `~/.setupvibe/bin`; see [Executables](../../en/EXECUTABLES.md)
 - Downloads the appropriate `.zshrc`:
   - macOS → [`conf/zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)
-- Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
+  - Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
 - Creates `~/.zshrc.local` for personal aliases and settings; updates never overwrite it.
 
 ### Step 12 — Tmux & Plugins

@@ -140,17 +140,17 @@ Instaladas via Homebrew em ambas as plataformas.
 - Configura `PermitRootLogin prohibit-password` e `PasswordAuthentication yes`
 - Faz backup do `sshd_config` original antes de modificar
 
-### Etapa 11 — Shell (ZSH e Starship)
+### Etapa 11 — Shell (ZSH & Prompt Colorido Customizado)
 
 - Instala ZSH pelo APT no Linux. O ZSH já é padrão no macOS
 - Instala Oh My Zsh (sem interação)
-- Clona os plugins `zsh-autosuggestions` e `zsh-syntax-highlighting`
+- Clona os plugins `zsh-autosuggestions`, `zsh-syntax-highlighting` e ativa `history-substring-search` (com setas `↑` e `↓`)
 - Instala Nerd Fonts: **FiraCode** e **JetBrains Mono**. Usa Homebrew Cask no macOS e baixa a v3.4.0 em `~/.local/share/fonts` no Linux
-- Instala o prompt Starship e aplica o preset **Gruvbox Rainbow**
+- Configura o prompt colorido clássico (`Hora` + `Usuário@Host` + `Diretório` + `Git Branch via vcs_info`) com histórico compartilhado incremental
 - Baixa scripts auxiliares de [`bin/`](../../../bin) para `~/.setupvibe/bin`. Veja [Executáveis](../../pt-br/EXECUTABLES.md)
 - Baixa o `.zshrc` adequado:
   - macOS → [`conf/zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)
-- Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
+  - Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
 - Cria `~/.zshrc.local` para aliases e configurações pessoais; as atualizações nunca o sobrescrevem.
 
 ### Etapa 12 — Tmux e Plugins
