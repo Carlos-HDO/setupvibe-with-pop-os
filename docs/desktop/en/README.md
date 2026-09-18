@@ -142,6 +142,7 @@ Installed via Homebrew on both platforms.
 - Installs Nerd Fonts: **FiraCode** and **JetBrains Mono** (Homebrew Cask on macOS; v3.4.0 downloaded to `~/.local/share/fonts` on Linux)
 - Configures the classic curated color prompt (`Timestamp` + `User@Host` + `Directory` + `Git Branch via vcs_info`) with shared incremental history
 - Downloads helper scripts from [`bin/`](../../../bin) to `~/.setupvibe/bin`; see [Executables](../../en/EXECUTABLES.md)
+- Installs the modular aliases file to `~/.config/zsh/aliases.zsh` ([`conf/aliases.zsh`](../../../conf/aliases.zsh))
 - Downloads the appropriate `.zshrc`:
   - macOS → [`conf/zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)
   - Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
@@ -187,40 +188,37 @@ See [pm2.md](pm2.md) for the full PM2 reference.
 
 ## Shell Configuration
 
-Each platform gets a dedicated `.zshrc`:
+The shell architecture is modular, decoupling core initialization from aliases and personal user customizations:
 
-| File                                               | Platform | Key paths                                    |
-| -------------------------------------------------- | -------- | -------------------------------------------- |
-| [`zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh) | macOS    | Homebrew, Cargo, Composer, Go, Bun           |
-| [`zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh) | Linux    | Linuxbrew, npm-global, Cargo, Go, Bun, rbenv |
+| File                                               | Purpose / Platform     | Description |
+| -------------------------------------------------- | ---------------------- | ----------- |
+| [`zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh) | macOS (`~/.zshrc`)     | PATHs, Oh My Zsh plugins, Starship/Prompt |
+| [`zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh) | Linux (`~/.zshrc`)     | PATHs, Oh My Zsh plugins, Color prompt, vcs_info Git, shared history |
+| [`aliases.zsh`](../../../conf/aliases.zsh)         | `~/.config/zsh/aliases.zsh` | Comprehensive categorized aliases (Dev, AI, Git, Docker, etc.) and `upup` function |
+| `~/.zshrc.local`                                   | Local (all)            | User-specific overrides and variables (never overwritten by installer) |
 
-### Aliases
+### Featured Aliases & Functions
 
-| Alias      | Command                                                                               |
-| ---------- | ------------------------------------------------------------------------------------- |
-| `reload`   | `source ~/.zshrc`                                                                     |
-| `zconfig`  | `nano ~/.zshrc`                                                                       |
-| `zlocal`   | `nano ~/.zshrc.local`                                                                 |
-| `ssh_copy_id` | `ssh_copy_id --host HOST --user USER [--pass PASS]`                                 |
-| `update`   | `brew update && brew upgrade` (macOS) / `sudo apt update && sudo apt upgrade` (Linux) |
-| `brewup`   | `brew update && brew upgrade && brew cleanup`                                         |
-| `cc`       | `claude --permission-mode=auto --dangerously-skip-permissions`                        |
-| `skl`      | `skills list`                                                                         |
-| `skf`      | `skills find`                                                                         |
-| `ska`      | `skills add`                                                                          |
-| `sku`      | `skills update`                                                                       |
-| `d`        | `docker`                                                                              |
-| `dc`       | `docker compose`                                                                      |
-| `art`      | `php artisan`                                                                         |
-| `syslog`   | `sudo journalctl -f` *(Linux only)*                                                   |
-| `ports`    | `ss -tulnp` *(Linux only)*                                                            |
-| `meminfo`  | `free -h` *(Linux only)*                                                              |
-| `diskinfo` | `df -h` *(Linux only)*                                                                |
-| `cpuinfo`  | `lscpu` *(Linux only)*                                                                |
+| Command / Alias | Description |
+| --------------- | ----------- |
+| `upup`          | All-in-one upgrade: APT + Flatpak + Autoremove + Autoclean + updatedb (with optional `-y` flag) |
+| `reload`        | Reloads ZSH configuration (`source ~/.zshrc`) |
+| `zconfig`       | Edits ZSH configuration (`nano ~/.zshrc`) |
+| `zlocal`        | Edits personal local settings (`nano ~/.zshrc.local`) |
+| `myalias`       | Shortcut to view/manage alias scripts |
+| `ll`, `la`, `l` | Detailed, formatted, and colorized directory listings |
+| `,`, `..`, `...`| Fast upward directory navigation (1, 2, or 3 levels) |
+| `cc`            | Run Claude CLI (`claude --permission-mode=auto --dangerously-skip-permissions`) |
+| `skl`, `skf`, `ska` | Agent Skills management (list, find, add) |
+| `sp`, `spinit`  | Spec-Kit CLI for Spec-Driven Development |
+| `gs`, `ga`, `gc`, `gp` | Full Git quick command suite |
+| `d`, `dc`, `dps` | Docker and Docker Compose workflow shortcuts |
+| `ports` / `ports_l` | Displays listening TCP/UDP ports and sockets (`sudo ss -tuanp`) |
+| `syslog`        | Follows live system logs (`sudo journalctl -f`) |
 
 ### Oh My Zsh Plugins
 
-`git rsync cp extract zoxide fzf zsh-autosuggestions zsh-syntax-highlighting brew gh ansible docker docker-compose laravel composer rails ruby python pip node npm bun golang rust` + `macos` (macOS only) / `nmap tmux` (Linux only)
+`git rsync cp extract zoxide fzf zsh-autosuggestions zsh-syntax-highlighting history-substring-search brew gh ansible docker docker-compose laravel composer rails ruby python pip node npm bun golang rust` + `macos` (macOS only) / `nmap tmux` (Linux only)
 
 ## Contributing
 

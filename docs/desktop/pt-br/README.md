@@ -148,6 +148,7 @@ Instaladas via Homebrew em ambas as plataformas.
 - Instala Nerd Fonts: **FiraCode** e **JetBrains Mono**. Usa Homebrew Cask no macOS e baixa a v3.4.0 em `~/.local/share/fonts` no Linux
 - Configura o prompt colorido clássico (`Hora` + `Usuário@Host` + `Diretório` + `Git Branch via vcs_info`) com histórico compartilhado incremental
 - Baixa scripts auxiliares de [`bin/`](../../../bin) para `~/.setupvibe/bin`. Veja [Executáveis](../../pt-br/EXECUTABLES.md)
+- Instala o arquivo modular de aliases em `~/.config/zsh/aliases.zsh` ([`conf/aliases.zsh`](../../../conf/aliases.zsh))
 - Baixa o `.zshrc` adequado:
   - macOS → [`conf/zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)
   - Linux → [`conf/zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)
@@ -194,41 +195,37 @@ Consulte [pm2.md](pm2.md) para a referência completa do PM2.
 
 ## Configuração do Shell
 
-Cada plataforma recebe um `.zshrc` dedicado:
+A arquitetura do shell é modular, separando a inicialização principal dos aliases e das customizações do usuário:
 
-| Arquivo                                               | Plataforma | Caminhos principais                               |
-| ----------------------------------------------------- | ---------- | ------------------------------------------------- |
-| [`zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)    | macOS      | Homebrew, Cargo, Composer, Go, Bun                |
-| [`zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)    | Linux      | Linuxbrew, npm-global, Cargo, Go, Bun, rbenv      |
+| Arquivo                                               | Propósito / Plataforma | Descrição |
+| ----------------------------------------------------- | ---------------------- | --------- |
+| [`zshrc-macos.zsh`](../../../conf/zshrc-macos.zsh)    | macOS (`~/.zshrc`)     | PATHs, Oh My Zsh plugins, Starship/Prompt |
+| [`zshrc-linux.zsh`](../../../conf/zshrc-linux.zsh)    | Linux (`~/.zshrc`)     | PATHs, Oh My Zsh plugins, Prompt colorido, vcs_info Git, histórico compartilhado |
+| [`aliases.zsh`](../../../conf/aliases.zsh)            | `~/.config/zsh/aliases.zsh` | Conjunto completo e categorizado de aliases (Dev, IA, Git, Docker, etc.) e função `upup` |
+| `~/.zshrc.local`                                      | Local (todas)          | Customizações e variáveis pessoais do usuário (não sobrescrito pelo instalador) |
 
-### Aliases
+### Aliases e Funções em Destaque
 
-| Alias      | Comando                                                                                    |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| `reload`   | `source ~/.zshrc`                                                                          |
-| `zconfig`  | `nano ~/.zshrc`                                                                            |
-| `zlocal`   | `nano ~/.zshrc.local`                                                                      |
-| `ssh_copy_id` | `ssh_copy_id --host HOST --user USUARIO [--pass SENHA]`                                  |
-| `update`   | `brew update && brew upgrade` (macOS) / `sudo apt update && sudo apt upgrade` (Linux)      |
-| `brewup`   | `brew update && brew upgrade && brew cleanup`                                              |
-| `cc`       | `claude --permission-mode=auto --dangerously-skip-permissions`                                |
-| `skl`      | `skills list`                                                                                 |
-| `skf`      | `skills find`                                                                                 |
-| `ska`      | `skills add`                                                                                  |
-| `sku`      | `skills update`                                                                               |
-| `d`        | `docker`                                                                                      |
-
-| `dc`       | `docker compose`                                                                           |
-| `art`      | `php artisan`                                                                              |
-| `syslog`   | `sudo journalctl -f` *(somente Linux)*                                                     |
-| `ports`    | `ss -tulnp` *(somente Linux)*                                                              |
-| `meminfo`  | `free -h` *(somente Linux)*                                                                |
-| `diskinfo` | `df -h` *(somente Linux)*                                                                  |
-| `cpuinfo`  | `lscpu` *(somente Linux)*                                                                  |
+| Comando / Alias | Descrição |
+| --------------- | --------- |
+| `upup`          | Atualização tudo-em-um: APT + Flatpak + Autoremove + Autoclean + updatedb (com flag opcional `-y`) |
+| `reload`        | Recarrega as configurações do ZSH (`source ~/.zshrc`) |
+| `zconfig`       | Edita o arquivo de configuração do ZSH (`nano ~/.zshrc`) |
+| `zlocal`        | Edita as customizações pessoais (`nano ~/.zshrc.local`) |
+| `myalias`       | Atalho para gerenciar/visualizar scripts de aliases |
+| `ll`, `la`, `l` | Listagens detalhadas e coloridas com `ls` |
+| `,`, `..`, `...`| Navegação rápida subindo 1, 2 ou 3 níveis de diretórios |
+| `cc`            | Execução Claude CLI (`claude --permission-mode=auto --dangerously-skip-permissions`) |
+| `skl`, `skf`, `ska` | Gerenciamento de Agent Skills (list, find, add) |
+| `sp`, `spinit`  | Spec-Kit CLI para Spec-Driven Development |
+| `gs`, `ga`, `gc`, `gp` | Conjunto completo de atalhos rápidos para Git |
+| `d`, `dc`, `dps` | Atalhos de produtividade Docker e Docker Compose |
+| `ports` / `ports_l` | Exibe portas e sockets em escuta no Linux (`sudo ss -tuanp`) |
+| `syslog`        | Monitoramento do journal do sistema em tempo real (`sudo journalctl -f`) |
 
 ### Plugins Oh My Zsh
 
-`git rsync cp extract zoxide fzf zsh-autosuggestions zsh-syntax-highlighting brew gh ansible docker docker-compose laravel composer rails ruby python pip node npm bun golang rust` + `macos` (somente macOS) / `nmap tmux` (somente Linux)
+`git rsync cp extract zoxide fzf zsh-autosuggestions zsh-syntax-highlighting history-substring-search brew gh ansible docker docker-compose laravel composer rails ruby python pip node npm bun golang rust` + `macos` (somente macOS) / `nmap tmux` (somente Linux)
 
 ## Contribuição
 

@@ -25,7 +25,7 @@ Installs and configures a development environment in one command, supporting Win
 - **Smart Privilege Elevation:** Uses `sudo` only where strictly necessary on macOS and Linux; most tools are installed in `$HOME/.local/bin`.
 - **Global QR Code Generator:** Installs the PyPI `qrcode` package for the target user on macOS and Linux, exposing its `qr` command in the shell.
 - **Auto-Update:** Automatically upgrades existing Homebrew packages during setup.
-- **Modern Shell:** ZSH + Oh My Zsh with a curated classic color prompt (timestamp, user@host, path, Git branch via vcs_info), history substring search with up/down arrows, shared incremental history, and modular aliases.
+- **Modern Shell & Modular Aliases:** ZSH + Oh My Zsh with a curated classic color prompt (timestamp, user@host, path, Git branch via vcs_info), history substring search with up/down arrows, shared incremental history, and dedicated modular aliases loaded from `~/.config/zsh/aliases.zsh` (including a comprehensive developer toolkit and the all-in-one `upup` system upgrade function).
 - **Optimized Tmux:** Pre-configured with TPM, intuitive keybindings, and window/pane numbering starting at 1.
 - **Current Runtimes:** PHP 8.5, Ruby 3.4.10, Go 1.26.5, Python 3.14 on macOS, and Node.js 24 LTS.
 - **AI-Ready Unix Editions:** Includes the latest AI CLI tools for developers on macOS, Linux, and WSL.
