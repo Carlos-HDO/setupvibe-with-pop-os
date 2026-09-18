@@ -42,6 +42,8 @@ echo ""
 
 # --- ENVIRONMENT ---
 export COMPOSER_ALLOW_SUPERUSER=1
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+RAW_BASE_URL="https://raw.githubusercontent.com/Carlos-HDO/setupvibeD/main"
 
 # --- HELPERS ---
 
@@ -657,7 +659,9 @@ install_setupvibe_bin() {
     echo "Installing SetupVibe helper scripts..."
     user_do mkdir -p "$REAL_HOME/.setupvibe/bin"
     user_do rm -f "$REAL_HOME/.setupvibe/bin/sshcopykey"
-    if ! safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/bin/ssh_copy_id "$REAL_HOME/.setupvibe/bin/ssh_copy_id" 500; then
+    if [ -f "$SCRIPT_DIR/bin/ssh_copy_id" ]; then
+        user_do cp "$SCRIPT_DIR/bin/ssh_copy_id" "$REAL_HOME/.setupvibe/bin/ssh_copy_id"
+    elif ! safe_download "$RAW_BASE_URL/bin/ssh_copy_id" "$REAL_HOME/.setupvibe/bin/ssh_copy_id" 500; then
         return 1
     fi
     user_do chmod +x "$REAL_HOME/.setupvibe/bin/ssh_copy_id"
@@ -1340,9 +1344,11 @@ step_7() {
     fi
 
     # Portainer Setup (Both macOS & Linux)
-    echo "Configuring Portainer..."
-    user_do mkdir -p "$REAL_HOME/.setupvibe/portainer_data"
-    safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/conf/portainer-compose.yml "$REAL_HOME/.setupvibe/portainer-compose.yml"
+    if [ -f "$SCRIPT_DIR/conf/portainer-compose.yml" ]; then
+        user_do cp "$SCRIPT_DIR/conf/portainer-compose.yml" "$REAL_HOME/.setupvibe/portainer-compose.yml"
+    else
+        safe_download "$RAW_BASE_URL/conf/portainer-compose.yml" "$REAL_HOME/.setupvibe/portainer-compose.yml"
+    fi
     if $IS_LINUX; then
         sys_do chown -R "$REAL_USER:$REAL_GROUP" "$REAL_HOME/.setupvibe"
     fi
@@ -1538,7 +1544,11 @@ step_11() {
         perl -i -pe 's/╭/┌/g; s/╰/└/g; s/\x{e0b6}/\x{e0b2}/g; s/\x{e0b4}/\x{e0b0}/g' "$REAL_HOME/.config/starship.toml"
 
         # macOS ZSHRC
-        safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/conf/zshrc-macos.zsh "$REAL_HOME/.zshrc"
+        if [ -f "$SCRIPT_DIR/conf/zshrc-macos.zsh" ]; then
+            user_do cp "$SCRIPT_DIR/conf/zshrc-macos.zsh" "$REAL_HOME/.zshrc"
+        else
+            safe_download "$RAW_BASE_URL/conf/zshrc-macos.zsh" "$REAL_HOME/.zshrc"
+        fi
         if [ ! -f "$REAL_HOME/.zshrc.local" ]; then
             user_do touch "$REAL_HOME/.zshrc.local"
         fi
@@ -1575,7 +1585,11 @@ step_11() {
         perl -i -pe 's/╭/┌/g; s/╰/└/g; s/\x{e0b6}/\x{e0b2}/g; s/\x{e0b4}/\x{e0b0}/g' "$REAL_HOME/.config/starship.toml"
 
         # Linux ZSHRC
-        safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/conf/zshrc-linux.zsh "$REAL_HOME/.zshrc"
+        if [ -f "$SCRIPT_DIR/conf/zshrc-linux.zsh" ]; then
+            user_do cp "$SCRIPT_DIR/conf/zshrc-linux.zsh" "$REAL_HOME/.zshrc"
+        else
+            safe_download "$RAW_BASE_URL/conf/zshrc-linux.zsh" "$REAL_HOME/.zshrc"
+        fi
         if [ ! -f "$REAL_HOME/.zshrc.local" ]; then
             user_do touch "$REAL_HOME/.zshrc.local"
         fi
@@ -1598,7 +1612,11 @@ step_12() {
     git_ensure "https://github.com/tmux-plugins/tpm" "$REAL_HOME/.tmux/plugins/tpm"
 
     echo "Downloading tmux-desktop.conf..."
-    safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/conf/tmux-desktop.conf "$REAL_HOME/.tmux.conf"
+    if [ -f "$SCRIPT_DIR/conf/tmux-desktop.conf" ]; then
+        user_do cp "$SCRIPT_DIR/conf/tmux-desktop.conf" "$REAL_HOME/.tmux.conf"
+    else
+        safe_download "$RAW_BASE_URL/conf/tmux-desktop.conf" "$REAL_HOME/.tmux.conf"
+    fi
 
     # Also install to /root if running as root with a different REAL_HOME
     if [[ "$(id -u)" -eq 0 && "$REAL_HOME" != "/root" ]]; then
@@ -1803,7 +1821,11 @@ EOF
         user_do "$pm2_bin" set pm2:log_date_format "YYYY-MM-DD HH:mm:ss"
 
         echo "Downloading PM2 ecosystem configuration..."
-        safe_download https://raw.githubusercontent.com/promovaweb/setupvibe/main/conf/ecosystem.config.js "$REAL_HOME/ecosystem.config.js"
+        if [ -f "$SCRIPT_DIR/conf/ecosystem.config.js" ]; then
+            user_do cp "$SCRIPT_DIR/conf/ecosystem.config.js" "$REAL_HOME/ecosystem.config.js"
+        else
+            safe_download "$RAW_BASE_URL/conf/ecosystem.config.js" "$REAL_HOME/ecosystem.config.js"
+        fi
         if $IS_LINUX; then
             sys_do chown "$REAL_USER:$REAL_GROUP" "$REAL_HOME/ecosystem.config.js"
         fi
