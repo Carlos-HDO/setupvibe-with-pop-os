@@ -11,7 +11,7 @@ set -Eeuo pipefail
 
 VERSION="0.41.10"
 OMARCHY_MAJOR="4"
-SETUPVIBE_RAW="https://raw.githubusercontent.com/Carlos-HDO/setupvibeD/main"
+SETUPVIBE_RAW="https://raw.githubusercontent.com/Carlos-HDO/setupvibe-with-pop-os/main"
 
 BOLD='\033[1m'
 RED='\033[0;31m'

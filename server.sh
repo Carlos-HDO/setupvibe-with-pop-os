@@ -30,7 +30,7 @@ readonly CTOP_VERSION="0.7.7"
 readonly CTOP_SHA256_AMD64="b78374734ebe3d14b6edee3d5512c911c250d7fa7f3f964cb00acd3bc5a02a09"
 readonly CTOP_SHA256_ARM64="d8d91e0fea53a8c78fa81192f078272e5a92f0ea6c4f0e38ec7c944d76e6f02f"
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
-readonly RAW_BASE_URL="https://raw.githubusercontent.com/Carlos-HDO/setupvibeD/main"
+readonly RAW_BASE_URL="https://raw.githubusercontent.com/Carlos-HDO/setupvibe-with-pop-os/main"
 
 # --- HELPERS ---
 usage() {

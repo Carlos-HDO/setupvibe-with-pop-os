@@ -69,7 +69,7 @@ done
 # --- ENVIRONMENT ---
 export COMPOSER_ALLOW_SUPERUSER=1
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
-RAW_BASE_URL="https://raw.githubusercontent.com/Carlos-HDO/setupvibeD/main"
+RAW_BASE_URL="https://raw.githubusercontent.com/Carlos-HDO/setupvibe-with-pop-os/main"
 
 # --- HELPERS ---
 
