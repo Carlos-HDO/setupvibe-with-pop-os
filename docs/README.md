@@ -1,4 +1,4 @@
-# SetupVibe Documentation
+# SetupVibeD Documentation
 
 > Automated development environment setup — v0.41.11
 

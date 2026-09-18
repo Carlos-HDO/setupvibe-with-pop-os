@@ -1,6 +1,9 @@
-# SetupVibe
+# SetupVibeD
 
 > The ultimate cross-platform development environment setup script — v0.41.11
+
+> [!NOTE]
+> **Sobre este fork:** O **SetupVibeD** é um fork aprimorado do projeto [SetupVibe](https://github.com/promovaweb/setupvibe) mantido pela comunidade [PromovaWeb](https://promovaweb.com). Esta versão inclui suporte nativo e melhorias para **Pop!_OS**, resolução de conflitos de repositórios/chaves do Docker no APT, instalação otimizada do PNPM e tolerância estendida de timeout para download de fontes grandes.
 
 Installs and configures a development environment in one command, supporting Windows 11, macOS, major Linux distributions (**Ubuntu, Pop!_OS, Debian, Zorin OS, Linux Mint**) and Omarchy 4. The Windows Edition focuses on native utilities, Python, Node.js, selected native AI CLIs, and the WSL 2 base system. The Unix Desktop Edition includes complete language ecosystems and a broader AI toolkit, the Server Edition remains focused on operations tooling, and the Omarchy edition adds only the SetupVibe layer that is not already present in the operating system.
 

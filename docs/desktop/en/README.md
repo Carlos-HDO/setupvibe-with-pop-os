@@ -1,4 +1,4 @@
-# SetupVibe — Desktop Edition
+# SetupVibeD — Desktop Edition
 
 > Cross-platform development environment setup — v0.41.11
 

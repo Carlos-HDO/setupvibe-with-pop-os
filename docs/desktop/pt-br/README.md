@@ -1,4 +1,4 @@
-# SetupVibe — Edição Desktop
+# SetupVibeD — Edição Desktop
 
 > Configuração de ambiente de desenvolvimento multiplataforma — v0.41.11
 
